@@ -1,0 +1,37 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "SBA App",
+  "@appTitle": {"description": "The application title"},
+
+  "signInTitle": "Sign in",
+  "emailLabel": "Email",
+  "passwordLabel": "Password",
+  "signInButton": "Sign in",
+  "signOutTooltip": "Sign out",
+
+  "setupVerifiedTitle": "Setup verified",
+  "signedInAs": "Signed in as {name}",
+  "@signedInAs": {
+    "description": "Shown on the home screen after login",
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "roleLabel": "Role: {role}",
+  "@roleLabel": {
+    "placeholders": { "role": { "type": "String" } }
+  },
+  "businessIdLabel": "Business ID: {id}",
+  "@businessIdLabel": {
+    "placeholders": { "id": { "type": "String" } }
+  },
+  "noProfileFound": "No profile found for this user.",
+  "errorLoadingProfile": "Error loading profile: {error}",
+  "@errorLoadingProfile": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+
+  "languageLabel": "Language",
+  "languageEnglish": "English",
+  "languageAmharic": "\u12a0\u121b\u122d\u129b",
+  "languageOromo": "Afaan Oromoo"
+}

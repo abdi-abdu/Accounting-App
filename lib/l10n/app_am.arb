@@ -1,0 +1,22 @@
+{
+  "@@locale": "am",
+
+  "appTitle": "SBA መተግበሪያ",
+  "signInTitle": "ግባ",
+  "emailLabel": "ኢሜይል",
+  "passwordLabel": "የይለፍ ቃል",
+  "signInButton": "ግባ",
+  "signOutTooltip": "ውጣ",
+
+  "setupVerifiedTitle": "ማዋቀር ተረጋግጧል",
+  "signedInAs": "እንደ {name} ገብተዋል",
+  "roleLabel": "ሚና: {role}",
+  "businessIdLabel": "የንግድ መታወቂያ: {id}",
+  "noProfileFound": "ለዚህ ተጠቃሚ መገለጫ አልተገኘም።",
+  "errorLoadingProfile": "መገለጫን በመጫን ላይ ስህተት: {error}",
+
+  "languageLabel": "ቋንቋ",
+  "languageEnglish": "እንግሊዝኛ",
+  "languageAmharic": "አማርኛ",
+  "languageOromo": "አፋን ኦሮሞ"
+}

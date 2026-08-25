@@ -1,0 +1,75 @@
+name: accountant_app
+description: Small Business Accounting & Inventory Management App
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Localization — English, Amharic, Afan Oromo (confirmed requirement)
+  flutter_localizations:
+    sdk: flutter
+  intl: 0.20.3
+
+  # Local-only language preference (confirmed: not synced across devices)
+  shared_preferences: ^2.2.3
+
+  # State management (Module 5, §2.2)
+  flutter_riverpod: ^2.5.1
+  # Routing (Module 5 / Module 6 core/routing)
+  go_router: ^14.2.0
+
+  # Supabase backend (Module 5, §4)
+  supabase_flutter: ^2.5.6
+
+  # Local offline database — Drift (Module 5, §1a: platform-conditional)
+  # Web uses drift's WASM/OPFS backend; sqlcipher_flutter_libs and
+  # sqlite3_flutter_libs are only exercised on mobile once that build target
+  # is added later, but are declared now so the conditional import compiles.
+  drift: ^2.19.0
+  sqlite3_flutter_libs: ^0.5.24
+  sqlcipher_flutter_libs: ^0.6.1
+  sqlite3: ^2.4.6
+  path_provider: ^2.1.3
+  path: ^1.9.0
+
+  # Encryption key storage (Module 5, §10)
+  flutter_secure_storage: ^9.2.2
+
+  # Offline/connectivity detection (Module 5, §3)
+  connectivity_plus: ^6.0.5
+
+  # Environment configuration (Supabase URL/anon key)
+  flutter_dotenv: ^5.1.0
+
+  # IDs for local-first record creation
+  uuid: ^4.4.0
+
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+  # Code generation (Drift tables, Riverpod providers) — run via build_runner
+  build_runner: ^2.4.11
+  drift_dev: ^2.19.0
+flutter:
+  uses-material-design: true
+  generate: true # enables flutter gen-l10n from l10n.yaml + lib/l10n/*.arb
+  assets:
+    - .env
+  fonts:
+    - family: NotoSansEthiopic
+      fonts:
+        - asset: assets/fonts/NotoSansEthiopic-Regular.ttf
+      # NOTE: this font file is NOT included in this scaffold — it could not
+      # be downloaded in the sandbox this was built in (no internet access).
+      # Download "Noto Sans Ethiopic" from Google Fonts and place the
+      # Regular .ttf at this exact path before running the app, or Amharic
+      # text will render as tofu boxes. See SETUP_GUIDE.md.

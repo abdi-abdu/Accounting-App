@@ -1,0 +1,22 @@
+{
+  "@@locale": "om",
+
+  "appTitle": "Appilikeeshinii SBA",
+  "signInTitle": "Seenuu",
+  "emailLabel": "Imeelii",
+  "passwordLabel": "Jecha Iccitii",
+  "signInButton": "Seenuu",
+  "signOutTooltip": "Ba'uu",
+
+  "setupVerifiedTitle": "Qindaa'inni Mirkanaa'eera",
+  "signedInAs": "Akka {name} seentaniirtu",
+  "roleLabel": "Gahee: {role}",
+  "businessIdLabel": "Eenyummaa Daldalaa: {id}",
+  "noProfileFound": "Fayyadamaa kanaaf ibsi hin argamne.",
+  "errorLoadingProfile": "Dogoggora ibsa fe'uu keessatti: {error}",
+
+  "languageLabel": "Afaan",
+  "languageEnglish": "Ingiliffa",
+  "languageAmharic": "Amaariffa",
+  "languageOromo": "Afaan Oromoo"
+}
