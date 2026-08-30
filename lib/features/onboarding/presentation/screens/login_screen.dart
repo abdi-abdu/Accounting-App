@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/auth/auth_repository.dart';
 import '../../../../core/localization/app_l10n_provider.dart';
 
-/// Phase 0 proof-of-life login screen — verifies the Supabase connection
-/// and RLS-aware auth flow work end-to-end. Real sign-up (UC-01, creating
-/// a business + trial) is built in Phase 1; for now, sign in with a test
-/// user you create manually in the Supabase Auth dashboard.
+/// Sign-in screen. See signup_screen.dart for account creation (UC-01).
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
@@ -75,6 +73,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
                   : Text(l10n.signInButton),
+            ),
+            const SizedBox(height: 12),
+            TextButton(
+              onPressed: () => context.go('/signup'),
+              child: Text(l10n.noAccountYet),
             ),
           ],
         ),

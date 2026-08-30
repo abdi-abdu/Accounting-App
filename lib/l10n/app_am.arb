@@ -18,5 +18,18 @@
   "languageLabel": "ቋንቋ",
   "languageEnglish": "እንግሊዝኛ",
   "languageAmharic": "አማርኛ",
-  "languageOromo": "አፋን ኦሮሞ"
+  "languageOromo": "አፋን ኦሮሞ",
+    "signUpTitle": "መለያ ይፍጠሩ",
+  "signUpButton": "ተመዝገብ",
+  "alreadyHaveAccount": "መለያ አለዎት? ይግቡ",
+  "noAccountYet": "መለያ የለዎትም? ይመዝገቡ",
+  "confirmPasswordLabel": "የይለፍ ቃል ያረጋግጡ",
+  "passwordsDontMatch": "የይለፍ ቃላት አይዛመዱም",
+  "checkEmailTitle": "ኢሜይልዎን ያረጋግጡ",
+  "checkEmailBody": "ወደ {email} የማረጋገጫ ማገናኛ ልከናል። ይጫኑት፣ ከዚያም ተመልሰው ይግቡ።",
+  "businessSetupTitle": "ንግድዎን ያዋቅሩ",
+  "businessNameLabel": "የንግድ ስም",
+  "fullNameLabel": "ሙሉ ስምዎ",
+  "completeSetupButton": "ማዋቀሩን ጨርስ",
+  "setupFailed": "ማዋቀር አልተሳካም: {error}"
 }

@@ -63,4 +63,47 @@ class AppLocalizationsOm extends AppLocalizations {
 
   @override
   String get languageOromo => 'Afaan Oromoo';
+
+  @override
+  String get signUpTitle => 'Akkaawuntii uumi';
+
+  @override
+  String get signUpButton => 'Galmaa\'i';
+
+  @override
+  String get alreadyHaveAccount => 'Duraan akkaawuntii qabdaa? Seenuu';
+
+  @override
+  String get noAccountYet => 'Akkaawuntii hin qabdu? Galmaa\'i';
+
+  @override
+  String get confirmPasswordLabel => 'Jecha iccitii mirkaneessi';
+
+  @override
+  String get passwordsDontMatch => 'Jechi iccitii wal hin simne';
+
+  @override
+  String get checkEmailTitle => 'Imeelii kee ilaali';
+
+  @override
+  String checkEmailBody(String email) {
+    return 'Hidhannoo mirkaneessaa gara $email erginee jirra. Tuqi, ergasii deebi\'ii seeni.';
+  }
+
+  @override
+  String get businessSetupTitle => 'Daldala kee qindeessi';
+
+  @override
+  String get businessNameLabel => 'Maqaa Daldalaa';
+
+  @override
+  String get fullNameLabel => 'Maqaa kee guutuu';
+
+  @override
+  String get completeSetupButton => 'Qindaa\'ina xumuri';
+
+  @override
+  String setupFailed(String error) {
+    return 'Qindaa\'inni hin milkoofne: $error';
+  }
 }

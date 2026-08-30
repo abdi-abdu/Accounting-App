@@ -63,4 +63,47 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get languageOromo => 'Afaan Oromoo';
+
+  @override
+  String get signUpTitle => 'Create your account';
+
+  @override
+  String get signUpButton => 'Sign up';
+
+  @override
+  String get alreadyHaveAccount => 'Already have an account? Sign in';
+
+  @override
+  String get noAccountYet => 'Don\'t have an account? Sign up';
+
+  @override
+  String get confirmPasswordLabel => 'Confirm password';
+
+  @override
+  String get passwordsDontMatch => 'Passwords don\'t match';
+
+  @override
+  String get checkEmailTitle => 'Check your email';
+
+  @override
+  String checkEmailBody(String email) {
+    return 'We sent a confirmation link to $email. Click it, then come back and sign in.';
+  }
+
+  @override
+  String get businessSetupTitle => 'Set up your business';
+
+  @override
+  String get businessNameLabel => 'Business name';
+
+  @override
+  String get fullNameLabel => 'Your full name';
+
+  @override
+  String get completeSetupButton => 'Complete setup';
+
+  @override
+  String setupFailed(String error) {
+    return 'Setup failed: $error';
+  }
 }

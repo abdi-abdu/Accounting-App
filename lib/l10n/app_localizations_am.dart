@@ -63,4 +63,47 @@ class AppLocalizationsAm extends AppLocalizations {
 
   @override
   String get languageOromo => 'አፋን ኦሮሞ';
+
+  @override
+  String get signUpTitle => 'መለያ ይፍጠሩ';
+
+  @override
+  String get signUpButton => 'ተመዝገብ';
+
+  @override
+  String get alreadyHaveAccount => 'መለያ አለዎት? ይግቡ';
+
+  @override
+  String get noAccountYet => 'መለያ የለዎትም? ይመዝገቡ';
+
+  @override
+  String get confirmPasswordLabel => 'የይለፍ ቃል ያረጋግጡ';
+
+  @override
+  String get passwordsDontMatch => 'የይለፍ ቃላት አይዛመዱም';
+
+  @override
+  String get checkEmailTitle => 'ኢሜይልዎን ያረጋግጡ';
+
+  @override
+  String checkEmailBody(String email) {
+    return 'ወደ $email የማረጋገጫ ማገናኛ ልከናል። ይጫኑት፣ ከዚያም ተመልሰው ይግቡ።';
+  }
+
+  @override
+  String get businessSetupTitle => 'ንግድዎን ያዋቅሩ';
+
+  @override
+  String get businessNameLabel => 'የንግድ ስም';
+
+  @override
+  String get fullNameLabel => 'ሙሉ ስምዎ';
+
+  @override
+  String get completeSetupButton => 'ማዋቀሩን ጨርስ';
+
+  @override
+  String setupFailed(String error) {
+    return 'ማዋቀር አልተሳካም: $error';
+  }
 }

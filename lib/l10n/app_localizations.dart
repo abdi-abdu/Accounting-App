@@ -195,6 +195,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Afaan Oromoo'**
   String get languageOromo;
+
+  /// No description provided for @signUpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your account'**
+  String get signUpTitle;
+
+  /// No description provided for @signUpButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign up'**
+  String get signUpButton;
+
+  /// No description provided for @alreadyHaveAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? Sign in'**
+  String get alreadyHaveAccount;
+
+  /// No description provided for @noAccountYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? Sign up'**
+  String get noAccountYet;
+
+  /// No description provided for @confirmPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm password'**
+  String get confirmPasswordLabel;
+
+  /// No description provided for @passwordsDontMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords don\'t match'**
+  String get passwordsDontMatch;
+
+  /// No description provided for @checkEmailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your email'**
+  String get checkEmailTitle;
+
+  /// No description provided for @checkEmailBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a confirmation link to {email}. Click it, then come back and sign in.'**
+  String checkEmailBody(String email);
+
+  /// No description provided for @businessSetupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up your business'**
+  String get businessSetupTitle;
+
+  /// No description provided for @businessNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Business name'**
+  String get businessNameLabel;
+
+  /// No description provided for @fullNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Your full name'**
+  String get fullNameLabel;
+
+  /// No description provided for @completeSetupButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete setup'**
+  String get completeSetupButton;
+
+  /// No description provided for @setupFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Setup failed: {error}'**
+  String setupFailed(String error);
 }
 
 class _AppLocalizationsDelegate

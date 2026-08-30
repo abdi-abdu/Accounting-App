@@ -18,5 +18,18 @@
   "languageLabel": "Afaan",
   "languageEnglish": "Ingiliffa",
   "languageAmharic": "Amaariffa",
-  "languageOromo": "Afaan Oromoo"
+  "languageOromo": "Afaan Oromoo",
+    "signUpTitle": "Akkaawuntii uumi",
+  "signUpButton": "Galmaa'i",
+  "alreadyHaveAccount": "Duraan akkaawuntii qabdaa? Seenuu",
+  "noAccountYet": "Akkaawuntii hin qabdu? Galmaa'i",
+  "confirmPasswordLabel": "Jecha iccitii mirkaneessi",
+  "passwordsDontMatch": "Jechi iccitii wal hin simne",
+  "checkEmailTitle": "Imeelii kee ilaali",
+  "checkEmailBody": "Hidhannoo mirkaneessaa gara {email} erginee jirra. Tuqi, ergasii deebi'ii seeni.",
+  "businessSetupTitle": "Daldala kee qindeessi",
+  "businessNameLabel": "Maqaa Daldalaa",
+  "fullNameLabel": "Maqaa kee guutuu",
+  "completeSetupButton": "Qindaa'ina xumuri",
+  "setupFailed": "Qindaa'inni hin milkoofne: {error}"
 }
