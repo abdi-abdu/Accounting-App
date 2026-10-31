@@ -1,0 +1,85 @@
+# Cursor Rules — Small Business Accounting & Inventory App
+
+This project has a fully approved architecture (Modules 1–7, see /docs). These
+rules exist so AI-assisted code in this repo never silently drifts from it.
+When in doubt, check /docs before generating code — don't guess.
+
+## Non-negotiable structural rules
+
+1. **Stock is never a stored quantity.** Current stock for an item is always
+   `SUM(quantity_remaining)` across its `stock_batches` rows. Never add a
+   `quantity` column to the items table or any equivalent shortcut.
+
+2. **FIFO costing only.** When a sale consumes stock, always deplete the
+   oldest unconsumed batch first. COGS for a sale line comes from the actual
+   batch(es) consumed (`sale_item_batch_consumption`), never from an
+   averaged or estimated cost.
+
+3. **Price override is one-way.** `sale_items.unit_price` may differ from
+   `items.master_selling_price` (a per-transaction override), but nothing
+   ever writes an override back into the item's master price.
+
+4. **Staff must never see cost/COGS data.** No query, view, or UI surface
+   reachable by a `staff`-role user may expose `purchase_cost_per_unit`,
+   `unit_cogs`, `total_cogs`, or anything profit/margin-derived. Use the
+   `*_staff_view` views (Module 7 §11) for staff-facing reads — never the
+   base tables.
+
+5. **Tenant isolation via `business_id`, enforced by RLS — not client code.**
+   Every operational table is scoped by `business_id`. Never rely on the
+   Flutter app to filter tenant data "for safety" — assume a hostile client
+   and require the database to enforce it. When adding a new table, always
+   add `business_id` and a matching RLS policy in the same change.
+
+6. **Subscription status is never client-writable.** Only the Chapa webhook
+   Edge Function (using the service_role key) may change
+   `subscriptions.status` or insert `subscription_payments`. Never add a
+   client-side path that marks a tenant as paid/active.
+
+7. **Offline-first, always.** Every write in `features/*/data/*_repository.dart`
+   must write to the local Drift database first and queue a sync operation —
+   never make a write depend on a live network call succeeding.
+
+8. **Platform-conditional storage — don't merge the two backends.**
+   `core/database/connection/connection_native.dart` (mobile, SQLCipher
+   encrypted) and `connection_web.dart` (web, WASM/OPFS, unencrypted — an
+   accepted documented limitation) are selected via conditional import in
+   `app_database.dart`. Don't add platform-specific logic anywhere else.
+
+9. **Domain logic lives in `domain/`, not in widgets or Supabase.** FIFO
+   calculation, price-override validation, and tier-limit checks are Dart
+   functions in each feature's `domain/` folder — reusable, unit-testable,
+   and identical whether online or offline.
+
+## Project structure
+
+- Feature-first: `lib/features/<feature>/{data,domain,presentation}/`
+- Shared infrastructure only in `lib/core/` — don't put feature-specific
+  logic there "because it felt important."
+- Riverpod providers live next to what they expose (e.g. `itemRepositoryProvider`
+  inside `item_repository.dart`), not in a separate global providers folder.
+
+## Localization
+
+- Every user-facing string goes in `lib/l10n/app_en.arb` first, then must
+  also be added to `app_am.arb` (Amharic) and `app_om.arb` (Afan Oromo) in
+  the same change — never ship an English-only string and "translate later."
+- Flag any new Amharic/Afan Oromo translation as best-effort in a PR
+  description if you're not a fluent speaker — don't present it as verified.
+
+## Multi-tenant SaaS specifics
+
+- Tiers: Basic (1 staff, standard reports) vs Pro (unlimited staff, custom
+  date ranges, trend charts, PDF/Excel export). Check `subscription_tiers`
+  feature flags — don't hardcode tier logic in the UI layer.
+- Super Admin access to tenant data is consent-based and time-limited
+  (`support_access_sessions`) — never build a standing/unrestricted
+  Super Admin data-access path, even for convenience during debugging.
+
+## Before implementing a new feature
+
+1. Check `/docs/Module3_UserRoles_UseCases.md` for the relevant use case
+   and permission matrix row.
+2. Check `/docs/Module4_Database_Design.md` for the tables involved.
+3. Check `/docs/Implementation_Roadmap.md` for which phase this belongs to
+   — don't build ahead of dependencies (e.g., sales before stock batches).
