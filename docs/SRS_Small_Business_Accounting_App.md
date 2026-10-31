@@ -203,7 +203,7 @@ All clarifying questions raised during business analysis have been resolved:
 
 - **Future deferred features** (suppliers/POs, customer credit tracking, barcode scanning, sales returns — Section 1.4): tier placement (Basic vs Pro vs both) **will be decided individually when each feature is actually built**, not pre-committed now.
 
-- **Grace period:** 3 days after a missed subscription payment before write-access is restricted (per architectural principle #6 — data is never deleted or hidden, only write access is gated).
+- **Grace period:** 3 days after a missed subscription payment **or an expired free trial** before write-access is restricted (per architectural principle #6 — data is never deleted or hidden, only write access is gated). Both paths enter the same `grace_period` status; there is no direct `trial → restricted` transition.
 - FR-8.3 is hereby scoped as a **Pro-tier feature**; Basic-tier accounts shall see reports in-app only, with an in-app upgrade prompt when export is attempted.
 - FR-1.2 (Owner creates Staff accounts) is hereby constrained by tier: the system shall enforce the staff-count limit at creation time and prevent exceeding it, with an upgrade prompt shown to Basic-tier owners attempting a 2nd staff account.
 

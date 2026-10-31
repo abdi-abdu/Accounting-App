@@ -12,8 +12,9 @@
 // Scheduled Functions or pg_cron — see TODOs).
 //
 // Transitions applied:
-//   active  → grace_period  when current_period_end  < now()
-//   grace_period → restricted when grace_period_ends_at < now()
+//   trial        → grace_period  when trial_ends_at        < now()  (sets grace_period_ends_at = now() + 3 days)
+//   active       → grace_period  when current_period_end   < now()  (sets grace_period_ends_at = now() + 3 days)
+//   grace_period → restricted    when grace_period_ends_at < now()
 //
 // Data is never deleted or modified during these transitions — only the
 // status flag changes (Module 5 §3.4). The Flutter app's subscriptionProvider
@@ -45,7 +46,24 @@ Deno.serve(async (_req: Request) => {
 
   const now = new Date().toISOString()
 
-  // -- 1. active → grace_period ------------------------------------------------
+  // -- 1. trial → grace_period ------------------------------------------------
+  // Free trials that expired without a payment get the same 3-day grace
+  // period as a missed renewal — not immediate restriction.
+  const { error: trialToGraceError } = await supabase
+    .from('subscriptions')
+    .update({
+      status: 'grace_period',
+      grace_period_ends_at: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+    })
+    .eq('status', 'trial')
+    .lt('trial_ends_at', now)
+
+  if (trialToGraceError) {
+    console.error('Error transitioning trial → grace_period:', trialToGraceError)
+    // TODO: add alerting/observability before going to production
+  }
+
+  // -- 2. active → grace_period ------------------------------------------------
   // Subscriptions whose current billing period has ended but haven't been
   // renewed yet. Grace period is 3 days (Module 5 §3.4).
   // TODO: verify that 3-day grace period figure against the final product
@@ -64,8 +82,10 @@ Deno.serve(async (_req: Request) => {
     // TODO: add alerting/observability before going to production
   }
 
-  // -- 2. grace_period → restricted --------------------------------------------
+  // -- 3. grace_period → restricted --------------------------------------------
   // Subscriptions whose grace period has also elapsed with no payment.
+  // This applies equally to expired trials and missed renewals — both enter
+  // grace_period first (steps 1 and 2 above) before reaching restricted.
   const { error: toRestrictedError } = await supabase
     .from('subscriptions')
     .update({ status: 'restricted' })
@@ -74,21 +94,6 @@ Deno.serve(async (_req: Request) => {
 
   if (toRestrictedError) {
     console.error('Error transitioning grace_period → restricted:', toRestrictedError)
-    // TODO: add alerting/observability before going to production
-  }
-
-  // -- 3. trial → restricted (if trial expired with no payment) ----------------
-  // TODO: confirm whether an expired trial with no payment goes directly to
-  //       'restricted' or passes through 'grace_period' first. The current
-  //       source docs are silent on this edge case.
-  const { error: trialExpiredError } = await supabase
-    .from('subscriptions')
-    .update({ status: 'restricted' })
-    .eq('status', 'trial')
-    .lt('trial_ends_at', now)
-
-  if (trialExpiredError) {
-    console.error('Error transitioning expired trial → restricted:', trialExpiredError)
     // TODO: add alerting/observability before going to production
   }
 

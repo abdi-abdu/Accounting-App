@@ -186,9 +186,9 @@ Three roles exist, defined by SRS v2.0 Section 2.1. The matrix below makes every
 
 ### UC-15: Handle Payment Lapse / Grace Period
 - **Actor:** System (automatic), Owner
-- **Trigger:** Subscription renewal date passes without a confirmed payment
+- **Trigger:** Subscription renewal date passes without a confirmed payment, **or free trial period expires without a payment**
 - **Main Flow:**
-  1. System marks the tenant as "payment overdue" and starts a 3-day grace period countdown
+  1. System moves the tenant to `grace_period` and starts a 3-day grace countdown (this applies equally to an expired trial and a missed renewal — both follow the same path)
   2. Owner sees a persistent billing reminder banner in-app during the grace period; all features remain functional
   3. If payment is not received within 3 days, system restricts write access (cannot record new sales/stock/expenses) while preserving all existing data and read access
   4. Upon successful payment, restriction is automatically lifted

@@ -76,6 +76,10 @@ A second, scheduled Edge Function (triggered via `pg_cron` or Supabase Scheduled
 ```typescript
 // supabase/functions/check-subscription-status/index.ts (scheduled daily)
 
+// For each subscription where trial_ends_at < now() and status = 'trial':
+//   → set status = 'grace_period', grace_period_ends_at = now() + 3 days
+//   (expired trials enter the same grace period as missed payments — not immediate restriction)
+
 // For each subscription where current_period_end < now() and status = 'active':
 //   → set status = 'grace_period', grace_period_ends_at = now() + 3 days
 
