@@ -562,3 +562,31 @@ $$ language sql stable;
 -- End of Module 7 SQL schema (updated to match what's actually deployed as
 -- of Phase 1 implementation).
 -- ============================================================================
+
+-- ============================================================================
+-- 17. CORRECTION: Section 11 staff views superseded
+-- (same style as Sections 15 and 16 above — discovered after Phase 1)
+-- ============================================================================
+-- The three staff views defined in Section 11 (stock_batches_staff_view,
+-- sales_staff_view, sale_items_staff_view) had two defects:
+--
+--   a) No tenant filter: they selected from the base tables without a
+--      WHERE business_id = auth_business_id() clause. Because views execute
+--      with the view owner's privileges (not the caller's), the base-table
+--      RLS policies were bypassed, allowing a staff user to read rows from
+--      other tenants.
+--
+--   b) No security_barrier: without this option, Postgres may push WHERE
+--      clauses from the outer query inside the view in ways that interact
+--      badly with security-sensitive conditions.
+--
+-- Both defects are corrected in:
+--   supabase/migrations/20261031000000_staff_views_tenant_filter.sql
+--
+-- A second omission was also found: the baseline did not enable RLS on
+-- subscription_tiers. That is corrected in:
+--   supabase/migrations/20261031000001_subscription_tiers_rls.sql
+--
+-- Do not edit Section 11 here — this file reflects what was originally
+-- written. The migration files are the authoritative corrections.
+-- ============================================================================
