@@ -56,6 +56,8 @@ Every operational table is scoped by `business_id`. Never rely on the Flutter ap
 
 Any view exposing tenant data must filter explicitly by `business_id = auth_business_id()`, use `security_barrier`, and revoke access from `anon`. Views run with their owner's privileges and bypass RLS unless created with `security_invoker`.
 
+After any action that changes the user's `business_id` or role (e.g. business setup), call `supabase.auth.refreshSession()` so the JWT claims match the database. RLS policies read claims from the token — a stale token that predates the profile row will silently return zero rows from any RLS-gated table.
+
 ### Rule 6 — Subscription status is never client-writable
 Only the Chapa webhook Edge Function (using the `service_role` key) may change `subscriptions.status` or insert `subscription_payments`. Never add a client-side path that marks a tenant as paid or active.
 

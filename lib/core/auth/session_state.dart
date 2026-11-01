@@ -29,8 +29,18 @@ class CurrentProfile {
   final String fullName;
 }
 
-/// Fetches the current user's profile row. Returns null if signed out.
-/// Re-fetches whenever auth state changes.
+/// Fetches the current user's profile row. Returns null if signed out or if
+/// no profile row exists yet (e.g. immediately after sign-up, before business
+/// setup completes).
+///
+/// NOTE: the profiles query is gated by RLS policies that read app_role and
+/// business_id from the JWT. If the session token predates the profile being
+/// created, the RLS check will silently return zero rows. Always call
+/// supabase.auth.refreshSession() after any action that creates or changes the
+/// user's business or role before expecting this provider to resolve correctly.
+///
+/// Re-fetches whenever auth state changes (covers the refreshSession() case
+/// because a token refresh emits a tokenRefreshed AuthState event).
 final currentProfileProvider = FutureProvider<CurrentProfile?>((ref) async {
   ref.watch(authStateProvider);
   final client = ref.watch(supabaseClientProvider);
@@ -38,7 +48,16 @@ final currentProfileProvider = FutureProvider<CurrentProfile?>((ref) async {
 
   if (user == null) return null;
 
-  final row = await client.from('profiles').select().eq('id', user.id).single();
+  // maybeSingle() returns null when no row matches instead of throwing.
+  // This keeps the router in /business-setup (hasProfile == false) rather
+  // than crashing while the token is still stale or before setup completes.
+  final row = await client
+      .from('profiles')
+      .select()
+      .eq('id', user.id)
+      .maybeSingle();
+
+  if (row == null) return null;
 
   return CurrentProfile(
     id: row['id'] as String,
