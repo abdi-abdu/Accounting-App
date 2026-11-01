@@ -100,7 +100,7 @@ Every piece of operational data (items, categories, stock batches, sales, expens
 - FR-12.2: The system shall offer at least two subscription tiers (e.g., Basic, Pro) that differ by: (a) maximum number of Staff accounts allowed, and (b) feature access (specific feature gating per tier to be defined in Module 2 addendum).
 - FR-12.3: Payments shall be processed via an automated Ethiopian payment aggregator (e.g., Chapa), supporting Telebirr, CBE Birr, and bank transfers (e.g., CBE, Awash Bank).
 - FR-12.4: Upon successful payment confirmation from the aggregator, the tenant's subscription status and expiry date shall update automatically without manual intervention.
-- FR-12.5: If a subscription payment is not renewed by its due date, the tenant shall enter a **grace period** (duration to be defined) during which full access continues, accompanied by an in-app renewal reminder.
+- FR-12.5: If a subscription payment is not renewed by its due date, or a free trial expires without payment, the tenant shall enter a **3-day grace period** during which full access continues, accompanied by an in-app renewal reminder.
 - FR-12.6: If payment is not received by the end of the grace period, the tenant's account shall be **restricted** (write access disabled) until payment resumes. Tenant data shall never be deleted for non-payment.
 - FR-12.7: The Owner shall be able to view their own tenant's current plan, billing history, and subscription status within the app.
 - FR-12.8: The Super Admin shall be able to view all tenants' subscription statuses, manually override/adjust a tenant's plan or status (e.g., for support/refund cases), and view aggregate subscription revenue.

@@ -114,3 +114,6 @@ All Drift table definitions live in `core/database/tables/` — not inside indiv
 
 ### Convention 6 — Backend change rule
 Every database change (tables, RLS policies, functions, triggers, grants) is a **new timestamped file** in `supabase/migrations/`. Never change the database only through the SQL Editor — if it isn't in a migration file, it doesn't exist as far as the repo is concerned.
+
+### Convention 7 — Git is the developer's responsibility
+Never run `git commit` or `git push`. The developer reviews the diff and commits manually.
