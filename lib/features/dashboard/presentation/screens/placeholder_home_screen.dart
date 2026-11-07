@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/auth/auth_repository.dart';
 import '../../../../core/auth/session_state.dart';
 import '../../../../core/database/app_database_provider.dart';
+import '../../../../core/database/local_db_check_provider.dart';
 import '../../../../core/localization/app_l10n_provider.dart';
 import '../../../../core/localization/locale_provider.dart';
 
@@ -23,6 +24,8 @@ class PlaceholderHomeScreen extends ConsumerWidget {
     final currentLocale = ref.watch(localeControllerProvider).valueOrNull;
     // Touching the provider confirms the local DB opens without throwing.
     ref.watch(appDatabaseProvider);
+    // TEMPORARY — smoke-test; remove with this screen when Phase 5 begins.
+    final dbCheckAsync = ref.watch(localDbCheckProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -68,6 +71,19 @@ class PlaceholderHomeScreen extends ConsumerWidget {
               onSelectionChanged: (selection) {
                 ref.read(localeControllerProvider.notifier).setLocale(selection.first);
               },
+            ),
+            // TEMPORARY — local DB smoke-test line; remove with this screen when Phase 5 begins.
+            const SizedBox(height: 24),
+            dbCheckAsync.when(
+              data: (count) => Text(
+                'Local DB OK, rows: $count',
+                style: TextStyle(color: Colors.green[700], fontSize: 12),
+              ),
+              loading: () => const Text('Local DB: checking…', style: TextStyle(fontSize: 12)),
+              error: (err, _) => Text(
+                'Local DB error: $err',
+                style: const TextStyle(color: Colors.red, fontSize: 12),
+              ),
             ),
           ],
         ),

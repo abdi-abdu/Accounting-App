@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/wasm.dart';
 
@@ -9,28 +10,32 @@ import 'package:drift/wasm.dart';
 /// accepted, documented limitation — not an oversight — pending the
 /// mobile app's full SQLCipher encryption.
 ///
-/// IMPORTANT: the exact asset/worker setup this requires (sqlite3.wasm,
-/// the Drift worker script, and COOP/COEP headers for the fast OPFS path)
-/// changes across Drift versions. Verify against Drift's current official
-/// "Using Drift on the web" documentation before relying on this in
-/// production — do not assume this snippet alone is sufficient without
-/// also completing the web/ folder asset setup described there.
+/// Assets required in web/:
+///   sqlite3.wasm        — from github.com/simolus3/sqlite3.dart/releases/tag/sqlite3-2.9.4
+///   drift_worker.dart.js — from github.com/simolus3/drift/releases/tag/drift-2.31.0
+///                          (released as drift_worker.js; renamed to match driftWorkerUri below)
 QueryExecutor openConnection() {
   return DatabaseConnection.delayed(Future(() async {
-    final db = await WasmDatabase.open(
+    final result = await WasmDatabase.open(
       databaseName: 'sba_app',
       sqlite3Uri: Uri.parse('sqlite3.wasm'),
       driftWorkerUri: Uri.parse('drift_worker.dart.js'),
     );
 
-    if (db.missingFeatures.isNotEmpty) {
+    // Log the chosen storage implementation so it's visible in the browser
+    // console during development. opfsShared/opfsLocks = durable OPFS storage;
+    // sharedIndexedDb/unsafeIndexedDb = IndexedDB fallback (less durable);
+    // inMemory = no persistence at all (COOP/COEP headers missing or browser
+    // too old).
+    debugPrint('[Drift] storage implementation: ${result.chosenImplementation}');
+
+    if (result.missingFeatures.isNotEmpty) {
       // Some browsers (notably older Safari) may fall back to a less
       // durable storage mode. Surface this via syncStatusProvider once
       // that's built (Phase 6) rather than failing silently.
-      // ignore: avoid_print
-      print('Drift web storage running in degraded mode: ${db.missingFeatures}');
+      debugPrint('[Drift] missing browser features: ${result.missingFeatures}');
     }
 
-    return db.resolvedExecutor;
+    return result.resolvedExecutor;
   }));
 }
